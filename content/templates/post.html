@@ -1,0 +1,69 @@
+{% include 'layout.html' with post_adding=post_add %}
+
+{% block content %}
+<main>
+	<section class="container my-5">
+		<div class="row">
+			<div class="col">
+				<h2 class="h2-responsive font-weight-bold indigo-text">
+					Добавить статью
+				</h2>
+				<form method="POST" class="mt-4" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col-8">
+							<input type="text" required name="title" id="title" class="form-control form-control-lg rounded-0 my-2" placeholder="Введите название статьи:">
+						</div>
+						<div class="col my-auto">
+							<button type="submit" class="btn btn-block btn-pink rounded-0">
+								Опубликовать
+							</button>
+						</div>
+					</div>
+					<div class="row my-2">
+						<div class="col-8">
+							<textarea rows="10" required name="about" class="form-control rounded-0" placeholder="Введите текст статьи:"></textarea>
+						</div>
+						<div class="col border mx-3 p-4 text-center h-100 text-center">
+							<h5 class="h5-responsive font-weight-bold indigo-text">
+								Загрузить изображение
+							</h5>
+							<div class="input-group">
+								<input type="file" required class="btn inputfile" name="files[]" id="files" aria-describedby="inputGroupFileAddon01" accept="image/jpeg,image/png,image/gif">
+								<label class="btn mx-auto indigo white-text" for="files" id="file_label">Выбрать</label>
+							</div>
+							<output id="list"></output>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  	function handleFileSelect(evt) {
+    	var files = evt.target.files;
+    	for (var i = 0, f; f = files[i]; i++) {
+      		if (!f.type.match('image.*')) {
+        		continue;
+      		}
+      		var reader = new FileReader();
+      		reader.onload = (function(theFile) {
+        	return function(e) {
+          		var span = document.createElement('span');
+          		span.innerHTML = ['<img class="thumb" src="', e.target.result, '" alt="', escape(theFile.name), '"/>'].join('');
+          		document.getElementById('list').insertBefore(span, null);
+          		document.getElementById('files').style.height = "0";
+          		document.getElementById('file_label').style.display = "none";
+        	};
+      	})(f);
+      	
+      	reader.readAsDataURL(f);
+    	}
+  	}
+  	document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{% load static %}
+<main>
+	
+	<section class="container my-4">
+		<div class="row">
+			<div class="col">
+				<ul class="list-unstyled d-flex flex-row my-3">
+					<li class="px-2">
+						<span class="red-text">&nbsp;&nbsp;NEW</span>
+					</li>
+					<li class="px-2">
+						<img src="{% static 'images/heart.png' %}" alt="">
+						<span>25</span>
+					</li>
+					<li class="px-2">
+						<img src="{% static 'images/comment.png' %}" alt="">
+						<span>25</span>
+					</li>
+					<li class="px-2">
+						<img src="{% static 'images/eye.png' %}" alt="">
+						<span>25</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<div class="media">
+					{% for post in posts|slice:":1" %}
+				  	<div class="media-body col-10">
+					    <h1 class="mt-0 font-weight-bold indigo-text mb-3">
+					    	{{post.title}}
+					    </h1>
+					    <p class="w-responsive mb-3">
+					    	{{post.about}}
+					    </p>
+					    <button class="btn btn-lg rounded-0 indigo m-0 text-white mb-3">
+					    	Читать
+					    </button>
+				  	</div>
+				  	<img class="d-flex align-self-center mr-3 img-fluid" src="/media/{{post.photo}}">
+				  	{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<hr class="w-100 divider">
+
+	<section class="container my-4">
+		<div class="row">
+			<div class="col-12">
+				<ul class="list-unstyled d-flex flex-row justify-content-between my-3">
+					<li>
+						<h2 class="mt-0 font-weight-bold indigo-text mb-3">
+							Другие статьи
+						</h2>
+					</li>
+					<li>
+						<img src="{% static 'images/filter.png' %}" alt="">
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="row">
+			{% for post in posts|slice:"1:" %}
+			<div class="col-12 col-sm-6 col-lg-4 my-2 d-flex align-items-stretch">
+				<div class="card z-depth-0 p-3 border rounded-0 w-100">
+					<p class="small text-muted">
+						{{post.created_date}}
+					</p>
+					<img src="/media/{{post.photo}}" class="w-75 mx-auto" alt="">
+					<p class="text-center black-text font-weight-bolder my-2 small">
+						Профессии будущего
+					</p>
+					<h5 class="font-weight-bold indigo-text text-center w-75 mx-auto">
+						{{post.title}}
+					</h5>
+					<ul class="list-unstyled d-flex flex-row my-2 justify-content-around">
+						<li class="px-2">
+							<img src="{% static 'images/heart.png' %}" alt="">
+							<span class="text-light">25</span>
+						</li>
+						<li class="px-2">
+							<img src="{% static 'images/comment.png' %}" alt="">
+							<span class="text-light">25</span>
+						</li>
+						<li class="px-2">
+							<img src="{% static 'images/eye.png' %}" alt="">
+							<span class="text-light">25</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</section>
+
+</main>
+
+{% endblock %}
